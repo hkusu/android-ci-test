@@ -7,7 +7,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  review:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: read # for checkout
@@ -20,5 +20,7 @@ jobs:
           java-version: 17
 
       - uses: gradle/actions/setup-gradle@v3
+        with:
+          dependency-graph: generate-and-upload
 
       - run: ./gradlew assembleDebug
