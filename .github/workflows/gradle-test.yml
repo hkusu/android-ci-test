@@ -24,5 +24,5 @@ jobs:
 #          add-job-summary: 'never'
 
       - run: ./gradlew lint
-#        env:
-#          GRADLE_OPTS: '-Dorg.gradle.caching=true'
+        env:
+          GRADLE_OPTS: '-Dorg.gradle.caching=true'
