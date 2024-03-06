@@ -19,10 +19,10 @@ jobs:
           distribution: zulu
           java-version: 17
 
-      - uses: gradle/actions/setup-gradle@v3
+#      - uses: gradle/actions/setup-gradle@v3
 #        with:
 #          add-job-summary: 'never'
 
-      - run: ./gradlew assembleDebug
-        env:
-          GRADLE_OPTS: '-Dorg.gradle.caching=true'
+      - run: ./gradlew lint
+#        env:
+#          GRADLE_OPTS: '-Dorg.gradle.caching=true'
