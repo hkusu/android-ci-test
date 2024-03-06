@@ -1,0 +1,27 @@
+name: Cache Generation
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+
+jobs:
+  generation:
+    name: Generation
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref:  ${{ inputs.sha }} # TODO 指定できるように
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: 17
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v3
+      - name: Download dependencies
+        #if: steps.cache.outputs.cache-hit != 'true' # 判定はできなそう
+        run: ./gradlew androidDependencies
