@@ -21,6 +21,6 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v3
         with:
-          dependency-graph: generate-and-upload
+          add-job-summary: 'never'
 
       - run: ./gradlew assembleDebug
