@@ -26,6 +26,7 @@ jobs:
 #        if: steps.cache.outputs.cache-hit != 'true' # 判定はできなそう
 #        run: ./gradlew androidDependencies
       - name: Build
-        run: ./gradlew assembleDebug
+        #run: ./gradlew assembleDebug
+        run: ./gradlew androidDependencies
         env:
           GRADLE_OPTS: '-Dorg.gradle.caching=true'
