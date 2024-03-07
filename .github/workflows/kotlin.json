@@ -1,6 +1,3 @@
-
-// w: /home/runner/work/android-ci-test/android-ci-test/androidApp/src/main/java/com/example/myhandsonapplication/android/MainActivity.kt: (35, 5): Parameter 'configSettings' is never used
-
 {
   "problemMatcher": [
     {
@@ -8,7 +5,7 @@
       "owner": "kotlin-compiler-warning",
       "pattern": [
         {
-          "regexp": "^w:\\s(.+):\\s\\((\\d+),\\s(\\d+)\\):\\s(.+)$",
+          "regexp": "^w:\\sfile://(.+):(\\d+):(\\d+)\\s(.+)$",
           "file": 1,
           "line": 2,
           "column": 3,
@@ -21,7 +18,33 @@
       "owner": "kotlin-compiler-error",
       "pattern": [
         {
-          "regexp": "^e:\\s+(\\S.+\\.kt):\\s+\\((\\d+),\\s+(\\d+)\\):\\s+(\\S.+)$",
+          "regexp": "^e:\\sfile://(.+):(\\d+):(\\d+)\\s(.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      ]
+    },
+    {
+      "severity": "warning",
+      "owner": "kotlin-old-compiler-warning",
+      "pattern": [
+        {
+          "regexp": "^w:\\s(.+):\\s\\((\\d+),\\s(\\d+)\\):\\s(.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      ]
+    },
+    {
+      "severity": "error",
+      "owner": "kotlin-old-compiler-error",
+      "pattern": [
+        {
+          "regexp": "^e:\\s(.+):\\s\\((\\d+),\\s(\\d+)\\):\\s(.+)$",
           "file": 1,
           "line": 2,
           "column": 3,
