@@ -16,7 +16,7 @@ jobs:
 #          repository: google/iosched
 #          path: sample
 
-      - run: echo '::add-matcher::./main/.github/workflows/kotlin.json'
+      - run: echo '::add-matcher::./.github/workflows/kotlin.json'
 
       - run: |
           echo "w: /home/runner/work/android-ci-test/android-ci-test/androidApp/src/main/java/com/example/myhandsonapplication/android/MainActivity.kt: (35, 5): Parameter 'configSettings' is never used"
