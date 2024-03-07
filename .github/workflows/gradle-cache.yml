@@ -3,7 +3,7 @@ name: Cache Generation
 on:
   push: # debug
 #  schedule:
-#    - cron: '*/5 * * * *'
+#    - cron: '0 */6 * * *' # 6時間毎の例
 
 jobs:
   generation:
@@ -14,8 +14,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          ref:  ${{ inputs.sha }} # TODO 指定できるように
+        # with: # デフォルトブランチ以外のコードでキャッシュを作成する場合は指定
+        #   ref: xxxx
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
@@ -23,14 +23,9 @@ jobs:
           java-version: 17
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
-#      - name: Download dependencies
-#        if: steps.cache.outputs.cache-hit != 'true' # 判定はできなそう
-#        run: ./gradlew androidDependencies
+        with:
+          gradle-home-cache-cleanup: true # Gradle キャッシュの積み上がりの防止. cache-write-only でもよいかもしれない
       - name: Build
-        #run: ./gradlew assembleDebug
-        run: ./gradlew androidDependencies
+        run: ./gradlew assembleDebug # ビルドキャッシュを含めないなら androidDependencies でもよい
         env:
-          GRADLE_OPTS: '-Dorg.gradle.caching=true'
-
-
-
+          GRADLE_OPTS: '-Dorg.gradle.caching=true' # Gradle オプションを適宜
