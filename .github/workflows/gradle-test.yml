@@ -20,8 +20,8 @@ jobs:
           java-version: 17
 
       - uses: gradle/actions/setup-gradle@v3
-        with:
-          add-job-summary: 'never'
+#        with:
+#          add-job-summary: 'never'
 
       - run: ./gradlew lint
         env:
