@@ -9,16 +9,19 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: main
-      - uses: actions/checkout@v4
-        with:
-          repository: google/iosched
-          path: sample
+#        with:
+#          path: main
+#      - uses: actions/checkout@v4
+#        with:
+#          repository: google/iosched
+#          path: sample
 
       - run: echo '::add-matcher::./main/.github/workflows/kotlin.json'
 
-      - name: Build
-        run: |
-          cd sample
-          ./gradlew assembleDebug
+      - run: |
+          echo "w: /home/runner/work/android-ci-test/android-ci-test/androidApp/src/main/java/com/example/myhandsonapplication/android/MainActivity.kt: (35, 5): Parameter 'configSettings' is never used"
+
+#      - name: Build
+#        run: |
+#          cd sample
+#          ./gradlew assembleDebug
