@@ -1,5 +1,9 @@
 name: Cache Generation
 
+# デフォルトブランチや、主にプルリクの base となるブランチで gradle/actions/setup-gradle の利用と cache の保存（後者は明示的に cache-read-only
+# を off にしないと cache は保存されない）がされていない場合に、本ワークフローで定期的に cache を作成する
+# もしくは、デフォルトブランチで gradle/actions/setup-gradle を利用する際に cache-read-only を on にして、cache の作成は本ワークフローで１本化
+
 on:
   push: # debug
 #  schedule:
@@ -26,6 +30,7 @@ jobs:
         with:
           gradle-home-cache-cleanup: true # Gradle キャッシュの積み上がりの防止. cache-write-only でもよいかもしれない
       - name: Build
-        run: ./gradlew assembleDebug # ビルドキャッシュを含めないなら androidDependencies でもよい
+        #run: ./gradlew assembleDebug # ビルドキャッシュを含めないなら androidDependencies でもよい
+        run: ./gradlew test
         env:
           GRADLE_OPTS: '-Dorg.gradle.caching=true' # Gradle オプションを適宜
