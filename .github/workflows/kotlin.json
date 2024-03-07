@@ -1,3 +1,6 @@
+
+// w: /home/runner/work/android-ci-test/android-ci-test/androidApp/src/main/java/com/example/myhandsonapplication/android/MainActivity.kt: (35, 5): Parameter 'configSettings' is never used
+
 {
   "problemMatcher": [
     {
@@ -5,7 +8,7 @@
       "owner": "kotlin-compiler-warning",
       "pattern": [
         {
-          "regexp": "^w:\\s+(\\S.+\\.kt):\\s+\\((\\d+),\\s+(\\d+)\\):\\s+(\\S.+)$",
+          "regexp": "^w:\\s(.+):\\s\\((\\d+),\\s(\\d+)\\):\\s(.+)$",
           "file": 1,
           "line": 2,
           "column": 3,
