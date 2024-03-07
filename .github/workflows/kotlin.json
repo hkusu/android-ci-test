@@ -1,0 +1,30 @@
+{
+  "problemMatcher": [
+    {
+      "severity": "warning",
+      "owner": "kotlin-compiler-warning",
+      "pattern": [
+        {
+          "regexp": "^w:\\s+(\\S.+\\.kt):\\s+\\((\\d+),\\s+(\\d+)\\):\\s+(\\S.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      ]
+    },
+    {
+      "severity": "error",
+      "owner": "kotlin-compiler-error",
+      "pattern": [
+        {
+          "regexp": "^e:\\s+(\\S.+\\.kt):\\s+\\((\\d+),\\s+(\\d+)\\):\\s+(\\S.+)$",
+          "file": 1,
+          "line": 2,
+          "column": 3,
+          "message": 4
+        }
+      ]
+    }
+  ]
+}
