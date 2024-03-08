@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: yumemi-inc/problem-matchers@main
+      - uses: yumemi-inc/problem-matchers/kotlin-compiler@add_files
 
 #        with:
 #          path: main
