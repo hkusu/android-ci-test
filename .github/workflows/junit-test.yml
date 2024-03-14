@@ -7,6 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+      checks: write # for action-junit-report action
     steps:
       - uses: actions/checkout@v4
       - uses: yumemi-inc/setup-java-gradle@v1
