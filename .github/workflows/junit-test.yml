@@ -13,8 +13,8 @@ jobs:
         with:
           cache-read-only: false
 
-      - run: ./gradlew test
-        id: test --continue
+      - run: ./gradlew test --continue
+        id: test
 
       - if: failure() && steps.test.outcome == 'failure'
         uses: mikepenz/action-junit-report@v3
