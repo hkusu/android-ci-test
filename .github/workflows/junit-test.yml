@@ -1,0 +1,14 @@
+name: Junit Test
+
+on: push
+
+jobs:
+  matcher-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: yumemi-inc/setup-java-gradle@v1
+
+      - run: ./gradlew test
