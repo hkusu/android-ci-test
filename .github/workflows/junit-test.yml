@@ -14,3 +14,10 @@ jobs:
           cache-read-only: false
 
       - run: ./gradlew test
+        id: test
+
+        if: failure() && steps.test.outcome == 'failure'
+        uses: mikepenz/action-junit-report@v3
+        with:
+          report_paths: '**/build/test-results/*/TEST-*.xml'
+          annotate_only: true
