@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: yumemi-inc/setup-java-gradle@v1
-        wit:
+        with:
           cache-read-only: false
 
       - run: ./gradlew test
