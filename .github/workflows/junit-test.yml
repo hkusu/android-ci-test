@@ -23,5 +23,5 @@ jobs:
           name: 'JUnit Test Report'
           path: '**/build/test-results/*/TEST-*.xml'
           reporter: 'java-junit'
-          fail-on-error: false
+#          fail-on-error: false
           #list-suites: 'failed'
