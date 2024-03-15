@@ -23,4 +23,4 @@ jobs:
           path: '**/build/test-results/*/TEST-*.xml'
           reporter: 'java-junit'
           fail-on-error: false
-          list-suites: 'failed'
+          #list-suites: 'failed'
