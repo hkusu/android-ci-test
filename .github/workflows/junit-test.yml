@@ -16,7 +16,8 @@ jobs:
       - uses: yumemi-inc/setup-java-gradle@v1
       - run: ./gradlew test --continue
         id: test
-      - if: failure() && steps.test.outcome == 'failure'
+      #- if: failure() && steps.test.outcome == 'failure'
+      - if: cancelled() != true
         uses: dorny/test-reporter@v1
         with:
           name: 'JUnit Test Report'
