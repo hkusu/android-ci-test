@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
 #      - uses: yumemi-inc/setup-java-gradle@v1
 
-      - uses: MobSF/mobsfscan@main
+      - uses: MobSF/mobsfscan@0.3.6
         with:
           args: . --sarif --output '${{ runner.temp }}/mobsfscan-results.sarif'
         continue-on-error: true
