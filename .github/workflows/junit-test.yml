@@ -25,11 +25,11 @@ jobs:
           find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
             reviewdog -f=sarif -reporter=github-pr-review < "$file_path"
           done
+
       - run: ./gradlew ktlintFormat --continue
         continue-on-error: true
 
-      - run: git status
-
       - uses: reviewdog/action-suggester@v1
-
-      - run: git status
+        with:
+          tool_name: 'ktlint'
+          filter_mode: 'added'
