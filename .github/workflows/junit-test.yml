@@ -25,10 +25,10 @@ jobs:
             reviewdog -f=sarif -reporter=github-pr-review < "$file_path"
           done
 
-#      - run: ./gradlew ktlintFormat --continue
-#        continue-on-error: true
+      - run: ./gradlew ktlintFormat --continue
+        continue-on-error: true
 
-#      - uses: reviewdog/action-suggester@v1
-#        with:
-#          tool_name: 'ktlint'
-#          filter_mode: 'added'
+      - uses: reviewdog/action-suggester@v1
+        with:
+          tool_name: 'ktlint'
+          filter_mode: 'added'
