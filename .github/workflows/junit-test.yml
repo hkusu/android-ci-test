@@ -10,21 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-#      checks: write # for dorny/test-reporter checks
       pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - uses: yumemi-inc/setup-java-gradle@v1
 
-#      - run: ./gradlew ktlintCheck --continue
-#        continue-on-error: true
-#      - uses: reviewdog/action-setup@v1
+      - run: ./gradlew ktlintCheck --continue
+        continue-on-error: true
+      - uses: reviewdog/action-setup@v1
 #      - env:
 #          REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}
-#        run: |
-#          find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
-#            reviewdog -f=sarif -reporter=github-pr-review < "$file_path"
-#          done
+      - run: |
+          find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
+            reviewdog -f=sarif -reporter=github-pr-review < "$file_path"
+          done
 
       - run: ./gradlew ktlintFormat --continue
         continue-on-error: true
