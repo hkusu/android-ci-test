@@ -55,6 +55,6 @@ subprojects {
             "**.kts",
             "!**/build/**",
         )
-        isIgnoreExitValue = true
+        //isIgnoreExitValue = true
     }
 }
