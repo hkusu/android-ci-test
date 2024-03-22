@@ -24,7 +24,7 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
-      - run: ./gradlew app:lintDebug --continue
+      - run: ./gradlew androidApp:lintDebug --continue
         continue-on-error: true
       - run: |
           mkdir '${{ runner.temp }}/reports'
