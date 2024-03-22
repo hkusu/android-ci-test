@@ -28,7 +28,7 @@ jobs:
         continue-on-error: true
       - run: |
           find . -regex '^.*/build/reports/lint-results.*\.sarif$' -type f | while read file_path; do
-            reviewdog -f=sarif -reporter=github-check -name='Android Lint' -tee >> "$GITHUB_STEP_SUMMARY" < "$file_path"
+            reviewdog -f=sarif -reporter=github-check -name='Android Lint' >> "$GITHUB_STEP_SUMMARY" < "$file_path"
           done
       - run: ./gradlew ktlintCheck --continue
         continue-on-error: true
