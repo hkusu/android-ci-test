@@ -1,36 +1,41 @@
-name: Android Lint Report
+name: Analysis Review
 
-on:
-  push:
-    branches: [main]
+on: push
 
-concurrency: # deploy 中の job が既にあれば待つ
-  group: 'github-pages' # 名前はなんでもよい
-  cancel-in-progress: false
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
 
 jobs:
-  report:
+  review:
     runs-on: ubuntu-latest
     permissions:
       contents: read # for checkout
-      pages: write # for pages action
-      id-token: write # for pages action
-    environment: # 必ずしも deployment イベントを発行する必要はないがリポジトリ TOP から遷移しやすいので
-      name: 'github-pages' # 名前はなんでもよい
-      url: ${{steps.deploy.outputs.page_url}}
+      checks: write # for mobsfscan checks
+      pull-requests: write # for review comment
+    env:
+      REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }} # jobへ定義してしまう
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: 17
-      - run: ./gradlew androidApp:lintDebug --continue
+      - uses: reviewdog/action-setup@v1
+      - run: ./gradlew app:lintDebug --continue
         continue-on-error: true
       - run: |
-          mkdir '${{ runner.temp }}/reports'
-          cp ./androidApp/build/reports/lint-results-debug.html '${{ runner.temp }}/reports/index.html'
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: ${{ runner.temp }}/reports
-      - uses: actions/deploy-pages@v4
-        id: deploy
+          find . -regex '^.*/build/reports/lint-results.*\.sarif$' -type f | while read file_path; do
+            reviewdog -f=sarif -reporter=github-pr-review < "$file_path"
+          done
+#      - run: ./gradlew ktlintCheck --continue
+#        continue-on-error: true
+#      - run: |
+#          find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
+#            reviewdog -f=sarif -reporter=github-pr-review < "$file_path"
+#          done
+#      - uses: MobSF/mobsfscan@0.3.6
+#        with:
+#          args: . --sarif --output '${{ runner.temp }}/mobsfscan-results.sarif'
+#        continue-on-error: true
+#      - run: reviewdog -f=sarif -reporter=github-check -name='mobsfscan' -filter-mode=nofilter < '${{ runner.temp }}/mobsfscan-results.sarif'
