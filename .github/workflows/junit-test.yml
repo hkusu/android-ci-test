@@ -27,18 +27,16 @@ jobs:
         continue-on-error: true
       - run: |
           find . -regex '^.*/build/reports/lint-results.*\.sarif$' -type f | while read file_path; do
-            #reviewdog -f=sarif -reporter=github-pr-review < "$file_path"
-            reviewdog -f=sarif -reporter=github-check < "$file_path"
+            reviewdog -f=sarif -reporter=github-check -name='Android Lint' < "$file_path"
           done
       - run: ./gradlew ktlintCheck --continue
         continue-on-error: true
       - run: |
           find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
-            #reviewdog -f=sarif -reporter=github-pr-review < "$file_path"
-            reviewdog -f=sarif -reporter=github-check < "$file_path"
+            reviewdog -f=sarif -reporter=github-check -name='ktlint' < "$file_path"
           done
-#      - uses: MobSF/mobsfscan@0.3.6
-#        with:
-#          args: . --sarif --output '${{ runner.temp }}/mobsfscan-results.sarif'
-#        continue-on-error: true
-#      - run: reviewdog -f=sarif -reporter=github-check -name='mobsfscan' -filter-mode=nofilter < '${{ runner.temp }}/mobsfscan-results.sarif'
+      - uses: MobSF/mobsfscan@0.3.6
+        with:
+          args: . --sarif --output '${{ runner.temp }}/mobsfscan-results.sarif'
+        continue-on-error: true
+      - run: reviewdog -f=sarif -reporter=github-check -name='mobsfscan' < '${{ runner.temp }}/mobsfscan-results.sarif'
