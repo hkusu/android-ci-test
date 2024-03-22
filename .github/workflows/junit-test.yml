@@ -1,18 +1,19 @@
-name: Analysis Review
+name: Analysis Report
 
-on: push
+on:
+  push:
+    branches: [main]
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
-  cancel-in-progress: true
+#concurrency:
+#  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+#  cancel-in-progress: true
 
 jobs:
-  review:
+  report:
     runs-on: ubuntu-latest
     permissions:
       contents: read # for checkout
-      checks: write # for mobsfscan checks
-#      pull-requests: write # for review comment
+      checks: write # for reviewdog
     env:
       REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }} # jobへ定義してしまう
     steps:
