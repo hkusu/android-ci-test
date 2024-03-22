@@ -28,7 +28,7 @@ jobs:
         continue-on-error: true
       - run: |
           mkdir '${{ runner.temp }}/reports'
-          cp ./app/build/reports/lint-results-debug.html '${{ runner.temp }}/reports/index.html'
+          cp ./androidApp/build/reports/lint-results-debug.html '${{ runner.temp }}/reports/index.html'
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ${{ runner.temp }}/reports
