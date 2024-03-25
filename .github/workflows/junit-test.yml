@@ -43,6 +43,6 @@ jobs:
         continue-on-error: true
       - run: reviewdog -f=sarif -reporter=github-check -name='mobsfscan' < '${{ runner.temp }}/mobsfscan-results.sarif'
 
-      - run: gh api repos/{owner}/{repo}/commits/{{ github.sha }}/check-runs | jq .check_runs[].conclusion
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - run: gh api repos/{owner}/{repo}/commits/${{ github.sha }}/check-runs | jq .check_runs[].conclusion
+        #env:
+        #  GH_TOKEN: ${{ github.token }}
