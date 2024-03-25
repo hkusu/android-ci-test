@@ -35,6 +35,7 @@ subprojects {
             "--reporter=plain",
             "--reporter=sarif,output=${buildDir}/reports/ktlint-results.sarif",
             "--reporter=html,output=${buildDir}/reports/ktlint-results.html",
+            "--reporter=checkstyle,output=${buildDir}/reports/ktlint-results.xml",
             "**/src/**/*.kt",
             "**.kts",
             "!**/build/**",

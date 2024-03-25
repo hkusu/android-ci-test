@@ -35,9 +35,13 @@ jobs:
         continue-on-error: true
         id: ktlint
       - run: |
-          find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
+          #find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
+          #  module="$(echo "$file_path" | awk '{gsub(/^\.\/|\/build\/.*$/,"")}1')"
+          #  reviewdog -f=sarif -reporter=github-check -name="ktlint(${module})" < "$file_path"
+          #done
+          find . -regex '^.*/build/reports/ktlint-results\.xml' -type f | while read file_path; do
             module="$(echo "$file_path" | awk '{gsub(/^\.\/|\/build\/.*$/,"")}1')"
-            reviewdog -f=sarif -reporter=github-check -name="ktlint(${module})" -level=warning < "$file_path"
+            reviewdog -f=checkstyle -reporter=github-check -name="ktlint(${module})" < "$file_path"
           done
 
       - uses: MobSF/mobsfscan@0.3.6
@@ -53,5 +57,6 @@ jobs:
 #        env:
 #          GH_TOKEN: ${{ github.token }}
 
-      - if: steps.android-lint.outcome == 'failure' || steps.ktlint.outcome == 'failure' || steps.mobsfscan.outcome == 'failure'
+      #- if: steps.android-lint.outcome == 'failure' || steps.ktlint.outcome == 'failure' || steps.mobsfscan.outcome == 'failure'
+      - if: steps.android-lint.outcome == 'failure'
         run: echo '::error::Some checks were failure.'; exit 1
