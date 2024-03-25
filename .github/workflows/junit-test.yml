@@ -35,15 +35,11 @@ jobs:
         continue-on-error: true
         id: ktlint
       - run: |
-          #find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
-          #  module="$(echo "$file_path" | awk '{gsub(/^\.\/|\/build\/.*$/,"")}1')"
-          #  reviewdog -f=sarif -reporter=github-check -name="ktlint(${module})" < "$file_path"
-          #done
-          find . -regex '^.*/build/reports/ktlint-results\.xml' -type f | while read file_path; do
+          find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
+            cat "$file_path" | jq '.runs[].results[].level = "warning"' > "$file_path"
             module="$(echo "$file_path" | awk '{gsub(/^\.\/|\/build\/.*$/,"")}1')"
-            reviewdog -f=checkstyle -reporter=github-check -name="ktlint(${module})" < "$file_path"
+            reviewdog -f=sarif -reporter=github-check -name="ktlint(${module})" < "$file_path"
           done
-
       - uses: MobSF/mobsfscan@0.3.6
         with:
           args: . --sarif --output '${{ runner.temp }}/mobsfscan-results.sarif'
