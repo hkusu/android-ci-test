@@ -46,3 +46,10 @@ jobs:
       - run: gh api repos/{owner}/{repo}/commits/${{ github.sha }}/check-runs | jq .check_runs[].conclusion
         env:
           GH_TOKEN: ${{ github.token }}
+
+      - run: |
+          failure_count=$(gh api repos/{owner}/{repo}/commits/${{ github.sha }}/check-runs | jq '.check_runs|map(select(.conclusion=="failure"))|length')
+          echo $failure_count
+
+        env:
+          GH_TOKEN: ${{ github.token }}
