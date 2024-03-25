@@ -26,15 +26,16 @@ jobs:
       - uses: reviewdog/action-setup@v1
       - run: ./gradlew androidApp:lintDebug --continue
         continue-on-error: true
+        id: android-lint
       - run: |
           find . -regex '^.*/build/reports/lint-results.*\.sarif$' -type f | while read file_path; do
             reviewdog -f=sarif -reporter=github-check -name='Android Lint' < "$file_path"
           done
       - run: ./gradlew ktlintCheck --continue
         continue-on-error: true
+        id: ktlint
       - run: |
-          #find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
-          find . -regex '^.*/shared/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
+          find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
             module="$(echo "$file_path" | awk '{gsub(/^\.\/|\/build\/.*$/,"")}1')"
             reviewdog -f=sarif -reporter=github-check -name="ktlint(${module})" -level=warning < "$file_path"
           done
@@ -43,10 +44,14 @@ jobs:
         with:
           args: . --sarif --output '${{ runner.temp }}/mobsfscan-results.sarif'
         continue-on-error: true
+        id: mobsfscan
       - run: reviewdog -f=sarif -reporter=github-check -name='mobsfscan' < '${{ runner.temp }}/mobsfscan-results.sarif'
 
-      - run: |
-          failure_count=$(gh api repos/{owner}/{repo}/commits/${{ github.sha }}/check-runs | jq '.check_runs|map(select(.conclusion=="failure"))|length')
-          if [ "$failure_count" != '0' ]; then echo '::error::Some checks were failure.'; exit 1; fi
-        env:
-          GH_TOKEN: ${{ github.token }}
+#      - run: |
+#          failure_count=$(gh api repos/{owner}/{repo}/commits/${{ github.sha }}/check-runs | jq '.check_runs|map(select(.conclusion=="failure"))|length')
+#          if [ "$failure_count" != '0' ]; then echo '::error::Some checks were failure.'; exit 1; fi
+#        env:
+#          GH_TOKEN: ${{ github.token }}
+
+      - if: steps.android-lint.outcome == 'failure' || steps.ktlint.outcome == 'failure' || steps.mobsfscan.outcome == 'failure'
+        run: echo '::error::Some checks were failure.'; exit 1
