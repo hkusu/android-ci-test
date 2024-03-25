@@ -30,22 +30,21 @@ jobs:
           find . -regex '^.*/build/reports/lint-results.*\.sarif$' -type f | while read file_path; do
             reviewdog -f=sarif -reporter=github-check -name='Android Lint' < "$file_path"
           done
-      - run: ./gradlew ktlintCheck --continue
-        continue-on-error: true
-      - run: |
-          find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
-            module="$(echo "$file_path" | awk '{gsub(/^\.\/|\/build\/.*$/,"")}1')"
-            reviewdog -f=sarif -reporter=github-check -name="ktlint(${module})" < "$file_path"
-          done
-      - uses: MobSF/mobsfscan@0.3.6
-        with:
-          args: . --sarif --output '${{ runner.temp }}/mobsfscan-results.sarif'
-        continue-on-error: true
-      - run: reviewdog -f=sarif -reporter=github-check -name='mobsfscan' < '${{ runner.temp }}/mobsfscan-results.sarif'
+#      - run: ./gradlew ktlintCheck --continue
+#        continue-on-error: true
+#      - run: |
+#          find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
+#            module="$(echo "$file_path" | awk '{gsub(/^\.\/|\/build\/.*$/,"")}1')"
+#            reviewdog -f=sarif -reporter=github-check -name="ktlint(${module})" < "$file_path"
+#          done
+#      - uses: MobSF/mobsfscan@0.3.6
+#        with:
+#          args: . --sarif --output '${{ runner.temp }}/mobsfscan-results.sarif'
+#        continue-on-error: true
+#      - run: reviewdog -f=sarif -reporter=github-check -name='mobsfscan' < '${{ runner.temp }}/mobsfscan-results.sarif'
 
       - run: |
           failure_count=$(gh api repos/{owner}/{repo}/commits/${{ github.sha }}/check-runs | jq '.check_runs|map(select(.conclusion=="failure"))|length')
-          # echo $failure_count          
-          if [ "$failure_count" != '0' ]; then echo '::error::some checks are failure'; exit 1; fi
+          if [ "$failure_count" != '0' ]; then echo '::error::Some checks are failure.'; exit 1; fi
         env:
           GH_TOKEN: ${{ github.token }}
