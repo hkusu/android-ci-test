@@ -43,13 +43,9 @@ jobs:
         continue-on-error: true
       - run: reviewdog -f=sarif -reporter=github-check -name='mobsfscan' < '${{ runner.temp }}/mobsfscan-results.sarif'
 
-      - run: gh api repos/{owner}/{repo}/commits/${{ github.sha }}/check-runs | jq .check_runs[].conclusion
-        env:
-          GH_TOKEN: ${{ github.token }}
-
       - run: |
           failure_count=$(gh api repos/{owner}/{repo}/commits/${{ github.sha }}/check-runs | jq '.check_runs|map(select(.conclusion=="failure"))|length')
-          echo $failure_count
-
+          # echo $failure_count          
+          if [ "$failure_count" != '0' ]; then echo '::error::some checks are failure'; exit 1; fi
         env:
           GH_TOKEN: ${{ github.token }}
