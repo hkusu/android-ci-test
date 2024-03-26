@@ -35,11 +35,6 @@ jobs:
         continue-on-error: true
         id: ktlint
       - run: |
-#          find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
-#            module="$(echo "$file_path" | awk '{gsub(/^\.\/|\/build\/.*$/,"")}1')"
-#            cat "$file_path" | jq '.runs[].results[].level = "warning"' > "${file_path}.tmp"
-#            reviewdog -f=sarif -reporter=github-check -name="ktlint(${module})" < "${file_path}.tmp"
-#          done
           find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
             module="$(echo "$file_path" | awk '{gsub(/^\.\/|\/build\/.*$/,"")}1')"
             jq '.runs[].results[].level = "warning"' | \
