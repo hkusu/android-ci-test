@@ -37,8 +37,9 @@ jobs:
       - run: |
           find . -regex '^.*/build/reports/ktlint-results\.sarif$' -type f | while read file_path; do
             module="$(echo "$file_path" | awk '{gsub(/^\.\/|\/build\/.*$/,"")}1')"
-            jq '.runs[].results[].level = "warning"' < "$file_path" | \
-              reviewdog -f=sarif -reporter=github-check -name="ktlint(${module})" -fail-on-error=true
+            #jq '.runs[].results[].level = "warning"' < "$file_path" | \
+            #  reviewdog -f=sarif -reporter=github-check -name="ktlint(${module})" -fail-on-error=true
+            reviewdog -f=sarif -reporter=github-check -name="ktlint(${module})" -fail-on-error=true < "$file_path"
           done
       - uses: MobSF/mobsfscan@0.3.6
         with:
